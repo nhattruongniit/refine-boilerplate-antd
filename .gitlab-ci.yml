@@ -7,10 +7,16 @@ build:
   before_script:
     - node -v
   script:
+<<<<<<< HEAD
     - npm install --legacy-peer-deps
     - mkdir build
     - npm run build
     - npm i -g firebase-tools
     - firebase use default
     - firebase deploy --only hosting --token $FIREBASE_TOKEN
+=======
+    - npm install
+    - mkdir build
+    - npm run build
+>>>>>>> 2e4b27b (add login auth)
     - echo "Deploy successfully"

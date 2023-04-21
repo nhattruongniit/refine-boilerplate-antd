@@ -1,25 +1,33 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 
 // refine
-import { Refine } from '@refinedev/core';
-import { RefineKbarProvider } from '@refinedev/kbar';
-import { ErrorComponent, notificationProvider, ThemedLayout } from '@refinedev/antd';
-import '@refinedev/antd/dist/reset.css';
-import routerBindings from '@refinedev/react-router-v6';
-import dataProvider from '@refinedev/simple-rest';
+import { Refine, Authenticated } from "@refinedev/core";
+import { RefineKbarProvider } from "@refinedev/kbar";
+import {
+  ErrorComponent,
+  notificationProvider,
+  ThemedLayout,
+} from "@refinedev/antd";
+import "@refinedev/antd/dist/reset.css";
+import routerBindings, { CatchAllNavigate } from "@refinedev/react-router-v6";
+// import dataProvider from '@refinedev/simple-rest';
+
+// libs
+import { authProvider, nestJsDataProvider } from "libs/RestProvider";
 
 // ant
-import { AppstoreOutlined } from '@ant-design/icons';
+import { AppstoreOutlined } from "@ant-design/icons";
 
 // context
-import { ColorModeContextProvider } from './contexts/color-mode';
+import { ColorModeContextProvider } from "./contexts/color-mode";
 
 // components
-import { Header, Title } from 'components';
+import { Header, Title } from "components";
 
-const Dashboard = React.lazy(() => import('pages/dashboard'));
+const Dashboard = React.lazy(() => import("pages/dashboard"));
+const Login = React.lazy(() => import("pages/Login"));
 
 function App() {
   const { t, i18n } = useTranslation();
@@ -35,15 +43,17 @@ function App() {
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <Refine
-            dataProvider={dataProvider('https://api.fake-rest.refine.dev')}
+            authProvider={authProvider}
+            dataProvider={nestJsDataProvider}
+            // dataProvider={dataProvider('https://api.fake-rest.refine.dev')} // using fake rest api
             notificationProvider={notificationProvider}
             i18nProvider={i18nProvider}
             routerProvider={routerBindings}
             resources={[
               {
-                name: 'instance_setup',
+                name: "instance_setup",
                 icon: <AppstoreOutlined />,
-                list: '/',
+                list: "/",
               },
             ]}
             options={{
@@ -54,17 +64,21 @@ function App() {
             <Routes>
               <Route
                 element={
-                  <ThemedLayout Header={Header} Title={Title}>
-                    <div className="m-[-24px]">
-                      <Outlet />
-                    </div>
-                  </ThemedLayout>
+                  <Authenticated fallback={<CatchAllNavigate to="/login" />}>
+                    <ThemedLayout Header={Header} Title={Title}>
+                      <div className="m-[-24px]">
+                        <Outlet />
+                      </div>
+                    </ThemedLayout>
+                  </Authenticated>
                 }
               >
                 <Route path="/">
                   <Route index element={<Dashboard />} />
                 </Route>
               </Route>
+              <Route path="/login" element={<Login />} />
+
               <Route
                 element={
                   <ThemedLayout Header={Header} Title={Title}>

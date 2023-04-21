@@ -49,6 +49,11 @@ To learn more about **refine**, please check out the [Documentation](https://ref
 - **React Router** [Docs](https://refine.dev/docs/core/providers/router-provider/)
 - **GraphQL** [Docs](https://refine.dev/docs/advanced-tutorials/data-provider/graphql/)
 
+## Development
+
+- Docker
+- Gitlab CI/CD
+
 ## License
 
 MIT
