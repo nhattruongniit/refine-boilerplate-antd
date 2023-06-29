@@ -1,10 +1,20 @@
-import { DownOutlined } from '@ant-design/icons';
-import { useGetIdentity, useGetLocale, useSetLocale } from '@refinedev/core';
-import { Avatar, Button, Dropdown, Layout as AntdLayout, MenuProps, Space, Switch, theme, Typography } from 'antd';
-import { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
+import { DownOutlined } from "@ant-design/icons";
+import { useGetIdentity, useGetLocale, useSetLocale } from "@refinedev/core";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Layout as AntdLayout,
+  MenuProps,
+  Space,
+  Switch,
+  theme,
+  Typography,
+} from "antd";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 
-import { ColorModeContext } from '../../contexts/color-mode';
+import { ColorModeContext } from "../../contexts/color-mode";
 
 const { Text } = Typography;
 const { useToken } = theme;
@@ -25,26 +35,28 @@ export const Header: React.FC = () => {
 
   const currentLocale = locale();
 
-  const menuItems: MenuProps['items'] = [...(i18n.languages || [])].sort().map((lang: string) => ({
-    key: lang,
-    onClick: () => changeLanguage(lang),
-    icon: (
-      <span style={{ marginRight: 8 }}>
-        <Avatar size={16} src={`/images/flags/${lang}.svg`} />
-      </span>
-    ),
-    label: lang === 'en' ? 'English' : 'German',
-  }));
+  const menuItems: MenuProps["items"] = [...(i18n.languages || [])]
+    .sort()
+    .map((lang: string) => ({
+      key: lang,
+      onClick: () => changeLanguage(lang),
+      icon: (
+        <span style={{ marginRight: 8 }}>
+          <Avatar size={16} src={`/images/flags/${lang}.svg`} />
+        </span>
+      ),
+      label: lang === "en" ? "English" : "German",
+    }));
 
   return (
     <AntdLayout.Header
       style={{
         backgroundColor: token.colorBgElevated,
-        display: 'flex',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        padding: '0px 24px',
-        height: '64px',
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        padding: "0px 24px",
+        height: "64px",
       }}
     >
       <Space>
@@ -57,7 +69,7 @@ export const Header: React.FC = () => {
           <Button type="text">
             <Space>
               <Avatar size={16} src={`/images/flags/${currentLocale}.svg`} />
-              {currentLocale === 'en' ? 'English' : 'German'}
+              {currentLocale === "en" ? "English" : "German"}
               <DownOutlined />
             </Space>
           </Button>
@@ -65,10 +77,10 @@ export const Header: React.FC = () => {
         <Switch
           checkedChildren="🌛"
           unCheckedChildren="🔆"
-          onChange={() => setMode(mode === 'light' ? 'dark' : 'light')}
-          defaultChecked={mode === 'dark'}
+          onChange={() => setMode(mode === "light" ? "dark" : "light")}
+          defaultChecked={mode === "dark"}
         />
-        <Space style={{ marginLeft: '8px' }} size="middle">
+        <Space style={{ marginLeft: "8px" }} size="middle">
           {user?.name && <Text strong>{user.name}</Text>}
           {user?.avatar && <Avatar src={user?.avatar} alt={user?.name} />}
         </Space>

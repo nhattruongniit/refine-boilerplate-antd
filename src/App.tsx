@@ -51,7 +51,7 @@ function App() {
             routerProvider={routerBindings}
             resources={[
               {
-                name: "instance_setup",
+                name: "Dashboard",
                 icon: <AppstoreOutlined />,
                 list: "/",
               },
