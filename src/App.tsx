@@ -15,7 +15,9 @@ import routerBindings, { CatchAllNavigate } from "@refinedev/react-router-v6";
 // import dataProvider from '@refinedev/simple-rest';
 
 // libs
-import { authProvider, nestJsDataProvider } from "libs/RestProvider";
+import { strapiDataProvider } from "@src/libs/StrapiProvider";
+import { authProvider } from "@src/libs/AuthProvider";
+import { nestCrudProvider } from "./libs/NestCrudProvider";
 
 // ant
 import { AppstoreOutlined } from "@ant-design/icons";
@@ -44,7 +46,10 @@ function App() {
         <ColorModeContextProvider>
           <Refine
             authProvider={authProvider}
-            dataProvider={nestJsDataProvider}
+            dataProvider={{
+              default: nestCrudProvider,
+              strapiProvider: strapiDataProvider,
+            }}
             // dataProvider={dataProvider('https://api.fake-rest.refine.dev')} // using fake rest api
             notificationProvider={notificationProvider}
             i18nProvider={i18nProvider}
