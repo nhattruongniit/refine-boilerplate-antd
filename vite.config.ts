@@ -29,19 +29,36 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 3000,
       open: true,
+       cors: true,
     },
     preview: {
+      host: "localhost",
       port: 3000,
+      strictPort: true,
+      cors: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
     },
     build: {
-      target: 'es2020',
-      outDir: 'build',
-      minify: isProd,
+      modulePreload: false,
+      target: "esnext",
+      minify: true,
+      cssCodeSplit: false,
       chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          entryFileNames: `[name]` + hash + `.js`,
+          chunkFileNames: `[name]` + hash + `.js`,
+        },
+      },
+      assetsDir: "assets",
     },
     define: {
-      'process.platform': {},
-      'process.versions': {},
+       "process.version": {},
+        "process.platform": {},
+        "process.versions": {},
+        "process.env.NODE_ENV": JSON.stringify(env.VITE_ENV === "production" ? "production" : "development"),
     },
     css: {
       preprocessorOptions: {
@@ -80,6 +97,13 @@ export default defineConfig(({ mode }) => {
         babel: {
           presets: ['@emotion/babel-preset-css-prop'],
         },
+      }),
+       federation({
+        name: "app",
+        remotes: {
+          remoteApp: `localhost:3005/assets/remoteEntry.js`,
+        },
+        shared: ["react", "react-dom", "@emotion/react", "@refinedev/core"],
       }),
       envCompatible(),
       tsconfigPaths(),
