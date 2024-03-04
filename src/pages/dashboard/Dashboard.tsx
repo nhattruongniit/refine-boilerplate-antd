@@ -8,6 +8,8 @@ import {
 } from "antd/es/table/interface";
 import { SearchOutlined } from "@ant-design/icons";
 
+const MicroTonyApp = React.lazy(() => import("remoteApp/Product"));
+
 interface DataType {
   key: React.Key;
   name: string;
@@ -17,6 +19,13 @@ interface DataType {
 }
 
 type DataIndex = keyof DataType;
+
+export const MicroTony: React.FC = () => {
+  return (
+      <MicroTonyApp />
+  );
+};
+
 
 export const Dashboard: React.FC = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
